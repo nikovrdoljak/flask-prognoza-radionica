@@ -1,6 +1,6 @@
 import os
 import requests
-
+from datetime import datetime
 from flask import Flask, render_template, redirect, url_for, session
 from flask_wtf import FlaskForm
 from wtforms import StringField, SubmitField, SelectField
@@ -26,7 +26,7 @@ def index():
     parameters = {'q': city, 'appid': OPEN_WEATHER_API_KEY, 'units':session.get('units'), 'lang':session.get('lang') }
     response = requests.get(url, parameters)
     weather = response.json()
-    return render_template('index.html', weather = weather, session = session)
+    return render_template('index.html', weather = weather, session = session, datetime = datetime)
 
 
 @app.route('/settings/', methods=['GET','POST'])
@@ -42,3 +42,9 @@ def settings():
     form.lang.data = session.get('lang')
     form.units.data = session.get('units')
     return render_template('settings.html', form = form)    
+
+@app.template_filter('datetime')
+def format_datetime(value, format='%d.%m.%Y %H:%M'):
+    if format == 'time':
+        format='%H:%M'
+    return datetime.fromtimestamp(value).strftime(format)

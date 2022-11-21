@@ -330,3 +330,46 @@ Kliknite glavnu stranicu i provjerite da li su podaci prikazani u skladu s posta
 
 ```(git checkout c3)```
 
+## Rad s datumskim vrijednostima
+U prikaz podataka dodajmo i podatak o danu i satu na koji se mjerene vrijednosti odnose. Taj podatak se nalazi u atributu ```weather.dt```, a koji u podacima ima vrijednost sličnu ```1669026478```. Radi se tzv. POSIX standardu opisa datumskih vrijednosti, a koji predstavlja broj sekundi proteklih od 1.1.1970.
+
+Da bismo datum mogli konvertirati u naš format, iskoristit ćemo ```fromtimestamp``` metodu ```datetime``` modula. Slijedeće korake moramo napraviti:
+Dodajmo u ```app.py``` import:
+```python
+from datetime import datetime
+```
+Zatim proslijedimo referencu na ```datetime``` u predložak:
+```python
+return render_template('index.html', weather = weather, session = session, datetime = datetime)
+```
+U predlošku dodajmo na vrh također:
+```python
+from datetime import datetime
+```
+Te u karici dodajmo prikaz tog podatka:
+```html
+<p>Datum: {{datetime.fromtimestamp(weather.dt)}}</p>
+```
+Ovo je i način kako u predložak možemo dodati neku funkciju. Jer u Pythonu, svaka funkcija je ujedno i objekt, te se može prosljeđivati kao argument. 
+
+Dodajmo izlazak i zalazak sunca. Ne trebaju nam niti datum niti sekunde, samo sati i minute, pa koristimo format:
+```html
+<p>Izlazak sunca: {{datetime.fromtimestamp(weather.sys.sunrise).strftime('%H:%M')}}</p>
+<p>Zalazak sunca: {{datetime.fromtimestamp(weather.sys.sunset).strftime('%H:%M')}}</p>
+```
+
+Ovo možemo i skratiti. Ne trebamo slati datetime u template. A dodat ćemo svoju filter funkciju:
+```python
+@app.template_filter('datetime')
+def format_datetime(value, format='%d.%m.%Y %H:%M'):
+    if format == 'time':
+        format='%H:%M'
+    return datetime.fromtimestamp(value).strftime(format)
+```
+Stoga možemo promijeniti format na:
+```html
+<p>Zalazak sunca: {{weather.sys.sunset | datetime('time')}}</p>
+```
+
+```(git checkout c4)```
+

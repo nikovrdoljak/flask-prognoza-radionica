@@ -8,9 +8,12 @@
     <div class="card-body">
         <h5 class="card-title">{{weather.weather[0].description}}</h5>
         <div class="card-text">
+            <p>Datum: {{datetime.fromtimestamp(weather.dt)}}</p>
             <p>Temperatura: {{weather.main.temp}}</p>
             <p>Vlažnost zraka: {{weather.main.humidity}}%</p>
             <p>Tlak: {{weather.main.pressure}} hpa</p>
+            <p>Izlazak sunca: {{weather.sys.sunrise | datetime('time')}}</p>
+            <p>Zalazak sunca: {{weather.sys.sunset | datetime('time')}}</p>
         </div>
     </div>
 </div>
