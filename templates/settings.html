@@ -1,0 +1,14 @@
+{% from 'bootstrap5/form.html' import render_form %}
+
+{% extends "base.html" %}
+
+{% block content %}
+
+<h2>Uredite postavke aplikacije</h2>
+<div class="row">
+    <div class="col-3">
+        {{ render_form(form) }}
+    </div>
+</div>
+
+{% endblock %}

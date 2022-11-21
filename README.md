@@ -237,6 +237,96 @@ Ponovo pokrenite aplikaciju i osvježite stranicu. Rezultat bi trebao biti:
 
 Ono što primjećujemo jest da teperatura nije u celzijus stupnjevima već fahrenheit, a opis vremenske situacije nije na hrvatskom već engleskom jeziku. Ovo ćemo promijeniti u sljedećem poglavlju.
 
-```(git checkout c1)```
+```(git checkout c2)```
 
+## Postavljanje mjernih jedinica i jezika preko stranice postavki
+U ovom poglavlju ćemo kreirati dodatnu stranicu "Postavke", u kojoj ćemo moći upisati grad, te odabrati jezik i mjerne jedinice. Prema Open weather dokumentaciji, to možemo napraviti tako da u zahtjev pošaljemo dva dodatka parametra:
+```
+&units=metric&lang=hr
+```
+Stoga ćemo kreirati novu stranicu s formom za odabit ovih postavki, a rezultat ćemo spremiti u korisnikov ```session``` objekt, te ga poslati prilikom sljedećeg poziva.
+
+Najprije u ```base.html``` dodajmo u navigacijski meni link na novu stranicu za postavke:
+```
+{{ render_nav_item('settings', 'Postavke') }}
+```
+
+Kreirajmo klasu za formu postavki novu rutu sa slijedećim kodom:
+```python
+class SettingsForm(FlaskForm):
+    city = StringField('Grad', validators=[DataRequired()])
+    lang = SelectField('Jezik', choices=[('hr', 'Hrvatski'), ('en', 'English'), ('de', 'Deutch')], validators=[DataRequired()])
+    units = SelectField(choices=[('metric', 'Metric'), ('imperial', 'Imperial')], validators=[DataRequired()])
+    submit = SubmitField('Spremi')
+
+@app.route('/settings/', methods=['GET','POST'])
+def settings():
+    form = SettingsForm()
+    if form.validate_on_submit():
+        session['city'] = form.city.data
+        session['lang'] = form.lang.data
+        session['units'] = form.units.data
+        return redirect(url_for('settings'))
+
+    form.city.data = session.get('city')
+    form.lang.data = session.get('lang')
+    form.units.data = session.get('units')
+    return render_template('settings.html', form = form)
+```
+
+Klasa ```SettingsForm``` opisuje našu formu, te naslijeđuje ```FlaskForm``` što znači da moramo instalirati ```flask-wtf``` komponentu:
+```
+pip install flask-wtf
+```
+
+U ```settings``` ruti spremamo odabrane vrijednosti u ```session``` objekt, te ih i čitamo ako su postavljene.
+
+Da bi ova konfiguracija koda radila dodajmo u import sekciji sve što treba:
+```python
+from flask import Flask, render_template, redirect, url_for, session
+from flask_wtf import FlaskForm
+from wtforms import StringField, SubmitField, SelectField
+from wtforms.validators import DataRequired
+```
+
+Slijedeći korak je dodavanje ```settings.html``` predloška:
+```html
+{% from 'bootstrap5/form.html' import render_form %}
+{% extends "base.html" %}
+{% block content %}
+<h2>Uredite postavke aplikacije</h2>
+<div class="row">
+    <div class="col-3">
+        {{ render_form(form) }}
+    </div>
+</div>
+{% endblock %}
+```
+
+Da bismo mogli raditi sa ```session``` objektom treba nam i ```SECRET_KEY```, pa ga dodajmo u ```app.py```:
+```python
+app.config['SECRET_KEY'] = 'MOJ_TAJNI_KLJUČ'
+```
+
+Za kraj još promijenimo vršnu rutu tako da prima parametre iz ```session``` objekta:
+```python
+@app.route('/')
+def index():
+    url = 'https://api.openweathermap.org/data/2.5/weather'
+    city = session.get('city') if session.get('city') else 'zadar'
+    parameters = {'q': city, 'appid': OPEN_WEATHER_API_KEY, 'units':session.get('units'), 'lang':session.get('lang') }
+    response = requests.get(url, parameters)
+    weather = response.json()
+    return render_template('index.html', weather = weather, session = session)
+```
+
+Ponovo pokrenite aplikaciju, kliknite link "Postavke", te ispunite i spremite formu:
+
+![Settings](/assets/c3-settings.png)
+
+Kliknite glavnu stranicu i provjerite da li su podaci prikazani u skladu s postavljenim postavkama:
+
+![Settings](/assets/c3-split.png)
+
+```(git checkout c3)```
 

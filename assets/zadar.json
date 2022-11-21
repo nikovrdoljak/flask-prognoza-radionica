@@ -1,43 +1,43 @@
 {
-    "coord": {
+  "coord": {
     "lon": 15.2422,
     "lat": 44.1197
-    },
-    "weather": [
+  },
+  "weather": [
     {
-    "id": 800,
-    "main": "Clear",
-    "description": "clear sky",
-    "icon": "01d"
+      "id": 800,
+      "main": "Clear",
+      "description": "clear sky",
+      "icon": "01d"
     }
-    ],
-    "base": "stations",
-    "main": {
+  ],
+  "base": "stations",
+  "main": {
     "temp": 286.49,
     "feels_like": 285.19,
     "temp_min": 286.49,
     "temp_max": 286.49,
     "pressure": 1009,
     "humidity": 50
-    },
-    "visibility": 10000,
-    "wind": {
+  },
+  "visibility": 10000,
+  "wind": {
     "speed": 2.06,
     "deg": 310
-    },
-    "clouds": {
+  },
+  "clouds": {
     "all": 0
-    },
-    "dt": 1669026478,
-    "sys": {
+  },
+  "dt": 1669026478,
+  "sys": {
     "type": 1,
     "id": 6392,
     "country": "HR",
     "sunrise": 1669010517,
     "sunset": 1669044486
-    },
-    "timezone": 3600,
-    "id": 3186952,
-    "name": "Zadar",
-    "cod": 200
-    }
+  },
+  "timezone": 3600,
+  "id": 3186952,
+  "name": "Zadar",
+  "cod": 200
+}
