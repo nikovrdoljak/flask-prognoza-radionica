@@ -434,3 +434,44 @@ Prognoza sad izgleda ovako:
 
 ```(git checkout c5)```
 
+## Cacheing
+Pošto prilikom svakog poziva, radimo ujedno i poziv prema OpenWeather API servisima, želimo ovaj dio optimizirati, pošto se podaci o vremenu ne mijenjauu često. U tu svrhu koristimo koncept *cacheinga*, koji nam omogućava da na određeno vrijeme neke vrijednosti držimo u privremenoj mmoriji čime aplikacija dobija na performansama.
+
+Najprije intalirajmo ```flask-caching``` komponentu:
+```
+pip install flask-caching
+```
+
+Dodajmo slijedeći kod:
+```python
+from flask_caching import Cache
+cache = Cache(app, config={'CACHE_TYPE': 'simple'})
+```
+
+Između 
+```python
+@app.route('/')
+
+def index():
+```
+dodajmo:
+```python
+@cache.cached(timeout=60)
+```
+Ovim jednostavnim rješenjem smo zapravo spremili odziv cijele vršne rute na 60 sekundi u privremenu memoriju. Ako primjerice u tu rutu dodamo ispis vremena u konzolu:
+```python
+print(datetime.now())
+```
+vidjet ćemo da se ispis vremena pojavljuje tek kad prođe 60 sekundi.
+
+Osim što možemo *cacheirati* view na ovaj način, možemo raditi isto i s drugim uunkcijama i objektima. Detalje možete pronaći na stranici https://flask-caching.readthedocs.io/en/latest/.
+
+## Ostale dorade na aplikaciji
+Ova aplikacija ne mora biti gotova i može se proširiti na brojne načine. što možete pokušati i sami. Npr.
+* Dodajte i ostale parametre poput brzine i smjera vjetra, vlažnosti, tlaka i sl. što nismo dodali u samu aplikaciju.
+* Možete iskoristiti za prikaz prognoze na google maps ili open street maps
+* Dodati prognozu za više gradova ili pamtiti gradove koje ste upisivali. Razmislite kako biste prikazali usporednu prognozu za više gradova.
+* Dodati satnu prognozu. Vidi: https://openweathermap.org/api/hourly-forecast
+* Dodajte Bootswatch temu. Vidi: https://bootstrap-flask.readthedocs.io/en/latest/advanced/#bootswatch-themes
+* Budite kreativni
+

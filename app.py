@@ -7,10 +7,12 @@ from flask_wtf import FlaskForm
 from wtforms import StringField, SubmitField, SelectField
 from wtforms.validators import DataRequired
 from flask_bootstrap import Bootstrap5
+from flask_caching import Cache
 
 locale.setlocale(locale.LC_ALL, 'hr')
 app = Flask(__name__)
 bootstrap = Bootstrap5(app)
+cache = Cache(app, config={'CACHE_TYPE': 'simple'})
 
 app.config['SECRET_KEY'] = 'MOJ_TAJNI_KLJUČ'
 OPEN_WEATHER_API_KEY = os.environ.get('OPEN_WEATHER_API_KEY')
@@ -23,12 +25,14 @@ class SettingsForm(FlaskForm):
 
 
 @app.route('/')
+@cache.cached(timeout=10)
 def index():
     url = 'https://api.openweathermap.org/data/2.5/weather'
     city = session.get('city') if session.get('city') else 'zadar'
     parameters = {'q': city, 'appid': OPEN_WEATHER_API_KEY, 'units':session.get('units'), 'lang':session.get('lang') }
     response = requests.get(url, parameters)
     weather = response.json()
+    print(datetime.now())
     return render_template('index.html', weather = weather, session = session, datetime = datetime)
 
 @app.route('/forecast_days')
