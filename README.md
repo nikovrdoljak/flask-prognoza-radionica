@@ -130,6 +130,8 @@ Prvi korak je da se registriramo na https://openweathermap.org/ stranici i kreir
 
 ![API_KEY](/assets/c2-api-key.png)
 
+*Napomena: Nakon što kreirate ključ, potrebno je neko vrijeme da se isti aktivira prije nego ga možete koristiti (par desetak minuta).*
+
 Nakon toga možemo koristi dohvat trenutne vremenske situacije prema uputama na stranici https://openweathermap.org/current. Tu možemo vidjeti kako naši pozivit trebaju biti strukturirani, te kakav je razultat koji nam servis vraća.
 
 Za početak provjerimo slanje zahtjeva direktno iz preglednika. Samo zamijenite API_KEY u parametrima URL-a svojim:
