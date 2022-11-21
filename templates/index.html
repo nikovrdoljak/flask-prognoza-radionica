@@ -3,12 +3,14 @@
 <h1>Vrijeme i vremenska prognoza</h1>
 <div class="card" style="width: 24rem;">
     <h4 class="card-header">
-        Grad
+        {{weather.name}}
     </h4>
     <div class="card-body">
-        <h5 class="card-title">Opis vremenske situacije</h5>
+        <h5 class="card-title">{{weather.weather[0].description}}</h5>
         <div class="card-text">
-            <p>Temperatura:  C˙</p>
+            <p>Temperatura: {{weather.main.temp}}</p>
+            <p>Vlažnost zraka: {{weather.main.humidity}}%</p>
+            <p>Tlak: {{weather.main.pressure}} hpa</p>
         </div>
     </div>
 </div>
