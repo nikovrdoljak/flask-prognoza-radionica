@@ -473,5 +473,4 @@ Ova aplikacija ne mora biti gotova i može se proširiti na brojne načine. što
 * Dodati prognozu za više gradova ili pamtiti gradove koje ste upisivali. Razmislite kako biste prikazali usporednu prognozu za više gradova.
 * Dodati satnu prognozu. Vidi: https://openweathermap.org/api/hourly-forecast
 * Dodajte Bootswatch temu. Vidi: https://bootstrap-flask.readthedocs.io/en/latest/advanced/#bootswatch-themes
-* Budite kreativni
 
