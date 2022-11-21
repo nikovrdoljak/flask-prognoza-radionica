@@ -422,6 +422,10 @@ Primjetimo da nam je temparatura zaokružena na dvije decimale. To želimo promi
 Najprije vrijednost zaokružujemo, pa pretvaramo u cijeli broj. Sad umjesto ```8.81 / 15.05``` imamo ```9 / 15```.
 
 Slijedeće što ćemo dodati su ikone s vizualnim prikazom vremena. Detalje pogledajte na stranici https://openweathermap.org/weather-conditions.
+Dodajte slijedeći dio u predložak kako bi se u popisu prikazale i ikone:
+```html
+    <td><img src="http://openweathermap.org/img/wn/{{day.weather[0].icon}}.png"></td>
+```
 
 Još ćemo promijeniti nazive dana s engleskog jezika na hrvatski. To možemo učiniti na slijedeći način dodavanjem:
 ```python
