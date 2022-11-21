@@ -373,3 +373,64 @@ Stoga možemo promijeniti format na:
 
 ```(git checkout c4)```
 
+## Sedmodnevna prognoza vremena
+U ovom poglavlju ćemo doddati stranicu s prognozom vremena za sedan dana. U tu svrhu koristit ćemo API opisan na stranici https://openweathermap.org/forecast16
+
+U bazni predložak dodajmo link:
+```
+{{ render_nav_item('forecast_days', '7-dnevna prognoza') }}
+```
+
+Zatim kreirajmo novu rutu:
+```python
+@app.route('/forecast_days')
+def forecast_days():
+    url = 'http://api.openweathermap.org/data/2.5/forecast/daily'
+    city = session.get('city') if session.get('city') else 'zadar'
+    parameters = {'q': city, 'appid': OPEN_WEATHER_API_KEY, 'cnt': '7', 'units': session.get('units'), 'lang': session.get('lang')}
+    response = requests.get(url, parameters)
+    weather = response.json()
+    return render_template('forecast_days.html', weather = weather)
+```
+
+Te na kraju i novi predložak :
+```html
+{% extends 'base.html' %}
+{% block content %}
+<h1>7-dnevna prognoza</h1>
+<table class="table">
+<tbody>
+    {% for day in weather.list %}
+    <tr>
+        <td>{{ day.dt | datetime('%A %d.%m')}}</td>
+        <td>{{ day.temp.min}} / {{ day.temp.max}}</td>
+        <td>{{ day.weather[0].description }} </td>
+    </tr>
+    {% endfor %}
+</tbody>
+</table>
+{% endblock %}
+```
+
+Ako sad pokrenemo aplikaciju i kliknemo na novi link dobit ćemo:
+![7-days](/assets/c5-7-days.png)
+
+Primjetimo da nam je temparatura zaokružena na dvije decimale. To želimo promijeniti u cijeli broj, pa stoga u predlošku dodajmo dvija numerička filtera:
+```html
+<td>{{ day.temp.min | round | int }} / {{ day.temp.max | round | int  }}</td>
+```
+Najprije vrijednost zaokružujemo, pa pretvaramo u cijeli broj. Sad umjesto ```8.81 / 15.05``` imamo ```9 / 15```.
+
+Slijedeće što ćemo dodati su ikone s vizualnim prikazom vremena. Detalje pogledajte na stranici https://openweathermap.org/weather-conditions.
+
+Još ćemo promijeniti nazive dana s engleskog jezika na hrvatski. To možemo učiniti na slijedeći način dodavanjem:
+```python
+import locale
+locale.setlocale(locale.LC_ALL, 'hr')
+```
+
+Prognoza sad izgleda ovako:
+![7-days](/assets/c5-7-days-2.png)
+
+```(git checkout c5)```
+

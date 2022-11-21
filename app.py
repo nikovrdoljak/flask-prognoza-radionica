@@ -1,11 +1,14 @@
 import os
 import requests
+import locale
 from datetime import datetime
 from flask import Flask, render_template, redirect, url_for, session
 from flask_wtf import FlaskForm
 from wtforms import StringField, SubmitField, SelectField
 from wtforms.validators import DataRequired
 from flask_bootstrap import Bootstrap5
+
+locale.setlocale(locale.LC_ALL, 'hr')
 app = Flask(__name__)
 bootstrap = Bootstrap5(app)
 
@@ -27,6 +30,15 @@ def index():
     response = requests.get(url, parameters)
     weather = response.json()
     return render_template('index.html', weather = weather, session = session, datetime = datetime)
+
+@app.route('/forecast_days')
+def forecast_days():
+    url = 'http://api.openweathermap.org/data/2.5/forecast/daily'
+    city = session.get('city') if session.get('city') else 'zadar'
+    parameters = {'q': city, 'appid': OPEN_WEATHER_API_KEY, 'cnt': '7', 'units': session.get('units'), 'lang': session.get('lang')}
+    response = requests.get(url, parameters)
+    weather = response.json()
+    return render_template('forecast_days.html', weather = weather)
 
 
 @app.route('/settings/', methods=['GET','POST'])

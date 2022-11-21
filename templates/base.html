@@ -18,6 +18,7 @@
                 <a class="navbar-brand" href="{{url_for('index')}}">Vremenska prognoza</a>
                 <div class="navbar-nav mr-auto">
                     {{ render_nav_item('index', 'Vrijeme') }}
+                    {{ render_nav_item('forecast_days', '7-dnevna prognoza') }}
                     {{ render_nav_item('settings', 'Postavke') }}
                 </div>
             </nav>
