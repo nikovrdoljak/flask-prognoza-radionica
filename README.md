@@ -235,7 +235,7 @@ Za kraj u ```index.html``` predlošku promijenite sadržaj katice tako da prikaz
 Ponovo pokrenite aplikaciju i osvježite stranicu. Rezultat bi trebao biti:
 ![Zadar](/assets/c2-zadar.png)
 
-Ono što primjećujemo jest da teperatura nije u celzijus stupnjevima već fahrenheit, a opis vremenske situacije nije na hrvatskom već engleskom jeziku. Ovo ćemo promijeniti u sljedećem poglavlju.
+Ono što primjećujemo jest da teperatura nije u celzijus stupnjevima već kelvinima, a opis vremenske situacije nije na hrvatskom već engleskom jeziku. Ovo ćemo promijeniti u sljedećem poglavlju.
 
 ```(git checkout c2)```
 
@@ -474,3 +474,12 @@ Ova aplikacija ne mora biti gotova i može se proširiti na brojne načine. što
 * Dodati satnu prognozu. Vidi: https://openweathermap.org/api/hourly-forecast
 * Dodajte Bootswatch temu. Vidi: https://bootstrap-flask.readthedocs.io/en/latest/advanced/#bootswatch-themes
 
+## Upute za pokretanje aplikacije
+* git clone https://github.com/nikovrdoljak/flask-prognoza-radionica
+* cd flask-prognoza-radionica
+* py -m venv venv
+* \venv\Scripts\Activate.ps1
+* pip install -r requirements.txt
+* $env:OPEN_WEATHER_API_KEY="VAŠ_OPENWEATHER_API_KEY"
+* $env:FLASK_DEBUG="1"
+* flask run
