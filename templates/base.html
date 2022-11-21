@@ -1,0 +1,31 @@
+{% from 'bootstrap5/nav.html' import render_nav_item %}
+<!doctype html>
+<html lang="en">
+    <head>
+        {% block head %}
+        <meta charset="utf-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+        {% block styles %}
+            {{ bootstrap.load_css() }}
+        {% endblock %}
+
+        <title>Vremenska prognoza</title>
+        {% endblock %}
+    </head>
+    <body>
+        <div class="container">
+            <nav class="navbar navbar-expand-lg navbar-light bg-light">
+                <a class="navbar-brand" href="{{url_for('index')}}">Vremenska prognoza</a>
+                <div class="navbar-nav mr-auto">
+                    {{ render_nav_item('index', 'Vrijeme') }}
+                </div>
+            </nav>
+        </div>
+        <div class="container">
+        {% block content %}{% endblock %}
+        </div>
+        {% block scripts %}
+            {{ bootstrap.load_js() }}
+        {% endblock %}
+    </body>
+</html>
