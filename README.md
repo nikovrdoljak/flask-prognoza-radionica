@@ -344,11 +344,8 @@ Zatim proslijedimo referencu na ```datetime``` u predložak:
 ```python
 return render_template('index.html', weather = weather, session = session, datetime = datetime)
 ```
-U predlošku dodajmo na vrh također:
-```python
-from datetime import datetime
-```
-Te u karici dodajmo prikaz tog podatka:
+
+Te u kartici dodajmo prikaz tog podatka:
 ```html
 <p>Datum: {{datetime.fromtimestamp(weather.dt)}}</p>
 ```
