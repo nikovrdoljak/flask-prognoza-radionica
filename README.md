@@ -345,7 +345,7 @@ Zatim proslijedimo referencu na ```datetime``` u predložak:
 return render_template('index.html', weather = weather, session = session, datetime = datetime)
 ```
 
-Te u kartici dodajmo prikaz tog podatka:
+U kartici dodajmo prikaz tog podatka:
 ```html
 <p>Datum: {{datetime.fromtimestamp(weather.dt)}}</p>
 ```
